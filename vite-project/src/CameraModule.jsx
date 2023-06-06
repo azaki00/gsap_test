@@ -13,6 +13,8 @@ const CameraModule = () => {
 
   const [showWindhelm, setShowWindhelm] = useState(false);
 
+  const [showMarkarth, setShowMarkarth] = useState(false);
+
 
   const [cameraPos, setCameraPos] = useState({
     x: 0,
@@ -38,6 +40,12 @@ const CameraModule = () => {
   const setFalse1 = () => {
     setShowWindhelm(false);
   }
+  const setTrue2 = () => {
+    setShowMarkarth(true);
+  }
+  const setFalse2 = () => {
+    setShowMarkarth(false);
+  }
   var tl = gsap.timeline({repeat: -1});
 
   useEffect(() => {
@@ -62,6 +70,19 @@ const CameraModule = () => {
       })
     } else {
       gsap.to(document.getElementById('loc-2'), {
+        opacity: 0,
+        duration: 1,
+        pointerEvents: 'none',
+      })
+    }
+    if(showMarkarth){
+      gsap.to(document.getElementById('loc-3'), {
+        opacity: 1,
+        duration: 1,
+        pointerEvents: 'all',
+      })
+    } else {
+      gsap.to(document.getElementById('loc-3'), {
         opacity: 0,
         duration: 1,
         pointerEvents: 'none',
@@ -192,10 +213,15 @@ const CameraModule = () => {
       y: 45,
       z: 30,
       duration: 5,
-
-      onUpdate: function () {
-        camera.lookAt(targetLookat2)
+      onStart: function(){
+        setTrue2();
       },
+      onUpdate: function () {
+        camera.lookAt(targetLookat2);
+      },
+      onComplete: function(){
+        setFalse2();
+      }
 
 
     }).to(targetLookat2, {
@@ -211,9 +237,10 @@ const CameraModule = () => {
       x:  0,
       y: 150,
       z: 150,
-      duration: 2,
+      duration: 5,
       ease: "power1.inOut",
       onUpdate: function () {
+        camera.lookAt(targetLookat2)
       },
     }, 'endReset')
   }, [camera])
