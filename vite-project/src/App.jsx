@@ -6,7 +6,7 @@ import Targets from './Targets'
 import CameraModule from './CameraModule'
 import Test from './testLoader' 
 import { Model } from '../Skyrim'
-import { Model2, Model3 } from '../Building'
+import { Model2, Model3, Model4 } from '../Building'
 
 function App() {
   return (
@@ -21,6 +21,7 @@ function App() {
         <Model />
         <Model2 />
         <Model3 />
+        <Model4 />
         <CameraModule />
       </Canvas>
     </>

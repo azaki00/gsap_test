@@ -13,7 +13,7 @@ import { useGLTF } from '@react-three/drei'
 export function Model(props) {
   const { nodes, materials } = useGLTF('/skyrim.glb')
   return (
-    <group {...props} dispose={null} scale={0.2}>
+    <group {...props} dispose={null} scale={0.2} rotation-x={-0.2}>
       <group position={[0, -22.4, 52.428]} rotation={[-2.953, 0, 0]}>
         <group rotation={[Math.PI / 2, 0, 0]}>
           <group position={[-12.409, 351.513, -0.1]}>

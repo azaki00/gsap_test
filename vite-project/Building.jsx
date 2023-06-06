@@ -13,7 +13,7 @@ import { useGLTF } from '@react-three/drei'
 export function Model2(props) {
   const { nodes, materials } = useGLTF('/building.glb')
   return (
-    <group {...props} dispose={null} position={[100,14,0]} rotation-x={0.2}>
+    <group {...props} dispose={null} position={[100,14,0]} >
       <mesh geometry={nodes.Object_2.geometry} material={materials['Scene_-_Root']} rotation={[-Math.PI / 2, 0, 0]} />
     </group>
   )
@@ -22,7 +22,15 @@ export function Model2(props) {
 export function Model3(props) {
   const { nodes, materials } = useGLTF('/building.glb')
   return (
-    <group {...props} dispose={null} position={[-25,10,20]} rotation-x={0.2}>
+    <group {...props} dispose={null} position={[-10,15,15]} >
+      <mesh geometry={nodes.Object_2.geometry} material={materials['Scene_-_Root']} rotation={[-Math.PI / 2, 0, 0]} />
+    </group>
+  )
+}
+export function Model4(props) {
+  const { nodes, materials } = useGLTF('/building.glb')
+  return (
+    <group {...props} dispose={null} position={[-100,9,-15]} rotation-y={Math.PI*0.5 } >
       <mesh geometry={nodes.Object_2.geometry} material={materials['Scene_-_Root']} rotation={[-Math.PI / 2, 0, 0]} />
     </group>
   )
