@@ -161,7 +161,7 @@ const CameraModule = () => {
       onUpdate: function () {
         camera.lookAt(initialLookat)
       },
-    },'midView').to(camera.position, {
+    }).to(camera.position, {
       x: 80,
       y: 50,
       z: 30,
@@ -176,7 +176,7 @@ const CameraModule = () => {
         setFalse1();
       },
 
-    },'midView').to(initialLookat, {
+    }).to(initialLookat, {
       x: targetLookat2.x,
       y: targetLookat2.y,
       z: targetLookat2.z,
