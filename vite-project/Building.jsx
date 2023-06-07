@@ -7,31 +7,92 @@ Source: https://sketchfab.com/3d-models/lowpoly-building1-721f78c9869647f1877e50
 Title: Lowpoly Building1
 */
 
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
+import React, { useRef, useState } from 'react'
+import { useCursor, useGLTF } from '@react-three/drei'
+import styles from './src/Model.module.css'
+import * as THREE from 'three'
+
+
 
 export function Model2(props) {
   const { nodes, materials } = useGLTF('/building.glb')
+  const [hover1, setHover1] = useState(false);
+  const enter1=()=>{
+    console.log('in 1');
+    setHover1(true);
+    props.switchLight();
+    
+    props.setLocation(new THREE.Vector3(100, 40, 0))
+  }
+  const leave1=()=>{
+    console.log('out 1');
+    setHover1(false);
+    props.switchLight();
+    props.setLocation(new THREE.Vector3(100, 40, 0))
+  }
+  const urlChange1 =()=>{
+    window.location.replace('/x');
+  }
   return (
-    <group {...props} dispose={null} position={[100,14,0]} >
+    <group {...props} dispose={null} position={[100, 14, 0]} onClick={() => urlChange1()} onPointerEnter={()=>enter1()} onPointerLeave={() =>leave1()}>
       <mesh geometry={nodes.Object_2.geometry} material={materials['Scene_-_Root']} rotation={[-Math.PI / 2, 0, 0]} />
+      {/* {hover1 && <pointLight position={[100, 40, 0]} color="white" intensity={1} />} */}
     </group>
   )
 }
 
+
+
 export function Model3(props) {
   const { nodes, materials } = useGLTF('/building.glb')
+  const [hover2, setHover2] = useState(false);
+  const enter2=()=>{
+    console.log('in 2');
+    setHover2(true);
+    props.switchLight();
+    props.setLocation(new THREE.Vector3(-10, 40, 15))
+  }
+  const leave2=()=>{
+    console.log('out 1');
+    setHover2(false);
+    props.switchLight();
+    props.setLocation(new THREE.Vector3(-10, 40, 15))
+  }
+  const urlChange2 =()=>{
+    window.location.replace('/y');
+  }
   return (
-    <group {...props} dispose={null} position={[-10,15,15]} >
+    <group {...props} dispose={null} position={[-10, 15, 15]} onClick={() => urlChange2()} onPointerEnter={()=>enter2()} onPointerLeave={() =>leave2()} >
       <mesh geometry={nodes.Object_2.geometry} material={materials['Scene_-_Root']} rotation={[-Math.PI / 2, 0, 0]} />
+      {/* {hover2 && <spotLight position={[-10, 40, 15]} color="white" intensity={1} />} */}
     </group>
   )
 }
+
+
+
 export function Model4(props) {
   const { nodes, materials } = useGLTF('/building.glb')
+  const [hover3, setHover3] = useState(false);
+  const enter3=()=>{
+    console.log('in 3');
+    setHover3(true);
+    props.switchLight();
+    props.setLocation(new THREE.Vector3(-100, 40, -15))
+  }
+  const leave3=()=>{
+    console.log('out 3');
+    setHover3(false);
+    props.switchLight();
+    props.setLocation(new THREE.Vector3(-100, 40, 0-15))
+  }
+  const urlChange3 =()=>{
+    window.location.replace('/z');
+  }
   return (
-    <group {...props} dispose={null} position={[-100,9,-15]} rotation-y={Math.PI*0.5 } >
+    <group {...props} dispose={null} position={[-100, 9, -15]} rotation-y={Math.PI * 0.5} onClick={() => urlChange3()} onPointerEnter={()=>enter3()} onPointerLeave={() =>leave3()}>
       <mesh geometry={nodes.Object_2.geometry} material={materials['Scene_-_Root']} rotation={[-Math.PI / 2, 0, 0]} />
+      {/* {hover3 && <spotLight position={[-100, 40, -15]} color="white" intensity={1} />} */}
     </group>
   )
 }

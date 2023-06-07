@@ -27,6 +27,7 @@ const CameraModule = () => {
   let targetLookat = new THREE.Vector3(100,14,0);
 
   let targetLookat2 = new THREE.Vector3(-100,20, -15);
+  let targetLookatX = new THREE.Vector3();
 
   const setTrue = () => {
     setShowWhiterun(true);
@@ -92,20 +93,20 @@ const CameraModule = () => {
 
 
   useEffect(() => {
-
+    //show beginning
     gsap.to(document.getElementById('root'), {
       opacity: 1,
       duration: 2,
       ease: "power1.inOut",
     })
-    //2
+    //show title
     gsap.to(document.getElementById('skyrim'), {
       opacity: 1,
       duration: 2,
       delay: 2,
       ease: 'power1.inOut'
     })
-    //5
+    //remove title
     gsap.to(document.getElementById('skyrim'), {
       opacity: 0,
       duration: 2,
@@ -113,7 +114,7 @@ const CameraModule = () => {
       pointerEvents: 'none',
       ease: 'power1.inOut'
     })
-    //7
+    //animating first panning
     gsap.to(camera.position, {
       y: 70,
       duration: 5,
@@ -138,18 +139,7 @@ const CameraModule = () => {
     // //9
 
     //12
-    tl
-    // .to(camera.position, {
-    //   x: 0,
-    //   y: 100,
-    //   z: 100,
-    //   duration: 2,
-    //   ease: "power1.inOut",
-    //   onUpdate: function () {
-    //     camera.lookAt(new THREE.Vector3(0, 0, 0))
-    //   },
-    // })
-    .to(camera.position, {
+    tl.to(camera.position, {
       x: -40,
       y: 70,
       z: 40,
@@ -173,7 +163,7 @@ const CameraModule = () => {
       onComplete: function () {
         setFalse();
       }
-    }).to(initialLookat, {
+    },'view1').to(initialLookat, {
       x: targetLookat.x ,
       y: targetLookat.y,
       z: targetLookat.z,
@@ -182,7 +172,7 @@ const CameraModule = () => {
       onUpdate: function () {
         camera.lookAt(initialLookat)
       },
-    }).to(camera.position, {
+    }, 'view2').to(camera.position, {
       x: 80,
       y: 50,
       z: 30,
@@ -191,45 +181,45 @@ const CameraModule = () => {
         setTrue1();
       },
       onUpdate: function () {
-        camera.lookAt(new THREE.Vector3(100, 14, 0))
+        camera.lookAt(initialLookat)
       },
       onComplete: function () {
         setFalse1();
       },
 
-    }).to(initialLookat, {
-      x: targetLookat2.x,
+    }, 'view2')
+    .to(targetLookat, {
+      x: targetLookat2.x ,
       y: targetLookat2.y,
       z: targetLookat2.z,
       duration: 2,
-
+      ease: "power1.inOut",
       onUpdate: function () {
-        camera.lookAt(initialLookat)
+        camera.lookAt(targetLookat)
       },
-
-
-    }).to(camera.position, {
-      x: -100,
+    }, 'view3').to(camera.position, {
+      x:  -100,
       y: 45,
       z: 30,
       duration: 5,
-      onStart: function(){
+      ease: "power1.inOut",
+          onStart: function(){
         setTrue2();
       },
       onUpdate: function () {
-        camera.lookAt(targetLookat2);
+        camera.lookAt(targetLookat)
       },
       onComplete: function(){
-        setFalse2();
+        setFalse2()
       }
-
-
-    }).to(targetLookat2, {
+    }, 'view3')
+    
+    .to(targetLookat2, {
       x: initialLookat.x ,
       y: initialLookat.y,
       z: initialLookat.z,
       duration: 2,
-      ease: "power1.inOut",
+      ease: "power3.inOut",
       onUpdate: function () {
         camera.lookAt(targetLookat2)
       },
@@ -243,6 +233,7 @@ const CameraModule = () => {
         camera.lookAt(targetLookat2)
       },
     }, 'endReset')
+    tl.seek('pos1')
   }, [camera])
   useFrame(() => {
     camera.current.updateMatrixWorld();
@@ -251,7 +242,7 @@ const CameraModule = () => {
   return (
     <>
       {/* <group ref={cameraRef}> */}
-      <PerspectiveCamera far={40000} near={0.1} ref={camera} position={[0, 150, 150]} makeDefault fov={70} />
+      <PerspectiveCamera far={40000} near={0.1} ref={camera} position={[0, 150, 150]} makeDefault fov={70} setTrue1={()=> setTrue1()} setFalse1 = {()=>setFalse1()}/>
       {/* </group> */}
     </>
   )

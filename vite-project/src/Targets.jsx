@@ -18,16 +18,16 @@ const Targets = (props) => {
     
       return (
         <>
-          <mesh ref={refBall1} position={[-3, 1.5, -7]} onPointerEnter={() => handleTargetHover("ball1", true)} onPointerLeave={() => handleTargetHover("ball1", false)}>
-            <sphereGeometry args={[0.4, 32, 32]} />
+          <mesh ref={refBall1} position={[-100, 20, -20]} onPointerEnter={() => handleTargetHover("ball1", true)} onPointerLeave={() => handleTargetHover("ball1", false)}>
+            <sphereGeometry args={[10, 32, 32]} />
             <meshBasicMaterial color={hovered.ball1 ? "green" : "red"} />
           </mesh>
-          <mesh ref={refBall2} position={[0, 1.5, 0]} onPointerEnter={() => handleTargetHover("ball2", true)} onPointerLeave={() => handleTargetHover("ball2", false)}>
-            <sphereGeometry args={[0.4, 32, 32]} />
+          <mesh ref={refBall2} position={[100, 25, 0]} onPointerEnter={() => handleTargetHover("ball2", true)} onPointerLeave={() => handleTargetHover("ball2", false)}>
+            <sphereGeometry args={[10, 32, 32]} />
             <meshBasicMaterial color={hovered.ball2 ? "green" : "red"} />
           </mesh>
-          <mesh ref={refBall3} position={[0, 4.4, 4]} onPointerEnter={() => handleTargetHover("ball3", true)} onPointerLeave={() => handleTargetHover("ball3", false)}>
-            <sphereGeometry args={[0.4, 32, 32]} />
+          <mesh ref={refBall3} position={[-10, 25, 15]} onPointerEnter={() => handleTargetHover("ball3", true)} onPointerLeave={() => handleTargetHover("ball3", false)}>
+            <sphereGeometry args={[10, 32, 32]} />
             <meshBasicMaterial color={hovered.ball3 ? "green" : "red"} />
           </mesh>
         </>
