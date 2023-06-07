@@ -7,15 +7,19 @@ import CameraModule from './CameraModule'
 import Test from './testLoader'
 import { Model } from '../Skyrim'
 import { Model2, Model3, Model4 } from '../Building'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import gsap from 'gsap'
 
 function App() {
   const [location, setLocation] = useState(new THREE.Vector3(0, 0, 0))
   const [lightVis, setLightVis] = useState(false)
-  const switchLight = () => {
-    setLightVis(!lightVis);
+  const [intense, setIntense] = useState()
+  const switchLightOn = () => {
+    setLightVis(true);
+  }
+  const switchLightOff = () => {
+    setLightVis(false)
   }
   const Spotspot = () => {
     let spotlightRef = useRef();
@@ -29,23 +33,29 @@ function App() {
         duration: 2,
       }
       )
+    })
+
+    useEffect(() => {
       if (lightVis) {
         gsap.to(spotlightRef.current, {
-          intensity: 1,
+          intensity: 3,
           ease: 'power1.inOut',
-          duration: 2,
+          duration: 3,
         })
-      } else {
+      }
+    }, [])
+    useEffect(() => {
+      if (!lightVis) {
         gsap.to(spotlightRef.current, {
           intensity: 0,
-          ease: 'power1.inOut',
+          ease: 'power2.inOut',
           duration: 2,
         })
       }
-    })
+    }, [])
     return (
       <>
-        <SpotLight penumbra={0.1} distance={100} decay={1} angle={1.9} ref={spotlightRef} position={location} intensity={lightVis ? 1 : 0} />
+        <SpotLight penumbra={0.5} distance={100} decay={1} angle={1.9} ref={spotlightRef} position={location} intensity={0} />
       </>
     )
   }
@@ -54,16 +64,16 @@ function App() {
     <>
       <Canvas shadows={true} >
         <ambientLight intensity={0.2} />
-        <pointLight position={[5, 50, 5]} intensity={0.5} castShadow />
+        <pointLight position={[5, 50, 5]} intensity={0.2} castShadow />
         {/* <Targets /> */}
-        <OrbitControls />
+        {/* <OrbitControls /> */}
         {/* <Test /> */}
         <Model />
-        <Model2 setLocation={setLocation} switchLight={switchLight} />
-        <Model3 setLocation={setLocation} switchLight={switchLight} />
-        <Model4 setLocation={setLocation} switchLight={switchLight} />
-        {/* <CameraModule /> */}
-        <Spotspot lightVis={lightVis} location={location}/>
+        <Model2 setLocation={setLocation} switchLightOn={switchLightOn} switchLightOff={switchLightOff} />
+        <Model3 setLocation={setLocation} switchLightOn={switchLightOn} switchLightOff={switchLightOff} />
+        <Model4 setLocation={setLocation} switchLightOn={switchLightOn} switchLightOff={switchLightOff} />
+        <CameraModule setLocation={setLocation} switchLightOn={switchLightOn} switchLightOff={switchLightOff} />
+        <Spotspot lightVis={lightVis} location={location} />
       </Canvas>
     </>
   )

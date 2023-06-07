@@ -6,7 +6,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import gsap from 'gsap';
 import Targets from './Targets';
 
-const CameraModule = () => {
+const CameraModule = (props) => {
   // let cameraRef = useRef();
   const { camera } = useThree();
   const [showWhiterun, setShowWhiterun] = useState(false);
@@ -22,11 +22,11 @@ const CameraModule = () => {
     z: 50
   })
 
-  let initialLookat = new THREE.Vector3(0,0,0);
-  
-  let targetLookat = new THREE.Vector3(100,14,0);
+  let initialLookat = new THREE.Vector3(0, 0, 0);
 
-  let targetLookat2 = new THREE.Vector3(-100,20, -15);
+  let targetLookat = new THREE.Vector3(100, 14, 0);
+
+  let targetLookat2 = new THREE.Vector3(-100, 20, -15);
   let targetLookatX = new THREE.Vector3();
 
   const setTrue = () => {
@@ -47,7 +47,7 @@ const CameraModule = () => {
   const setFalse2 = () => {
     setShowMarkarth(false);
   }
-  var tl = gsap.timeline({repeat: -1});
+  var tl = gsap.timeline({ repeat: -1 });
 
   useEffect(() => {
     if (showWhiterun) {
@@ -76,7 +76,7 @@ const CameraModule = () => {
         pointerEvents: 'none',
       })
     }
-    if(showMarkarth){
+    if (showMarkarth) {
       gsap.to(document.getElementById('loc-3'), {
         opacity: 1,
         duration: 1,
@@ -156,15 +156,18 @@ const CameraModule = () => {
       ease: "power1.inOut",
       onStart: function () {
         setTrue();
+        props.setLocation(new THREE.Vector3(10, 40, 15));
+        props.switchLightOn();
       },
       onUpdate: function () {
-        camera.lookAt(new THREE.Vector3(0, 0, 0))
+        camera.lookAt(new THREE.Vector3(0, 0, 0));
       },
       onComplete: function () {
         setFalse();
+        props.switchLightOff();
       }
-    },'view1').to(initialLookat, {
-      x: targetLookat.x ,
+    },).to(initialLookat, {
+      x: targetLookat.x,
       y: targetLookat.y,
       z: targetLookat.z,
       duration: 2,
@@ -172,68 +175,73 @@ const CameraModule = () => {
       onUpdate: function () {
         camera.lookAt(initialLookat)
       },
-    }, 'view2').to(camera.position, {
+    },).to(camera.position, {
       x: 80,
       y: 50,
       z: 30,
       duration: 7,
       onStart: function () {
         setTrue1();
+        props.setLocation(new THREE.Vector3(100, 40, 0));
+        props.switchLightOn();
       },
       onUpdate: function () {
         camera.lookAt(initialLookat)
       },
       onComplete: function () {
         setFalse1();
+        props.switchLightOff();
       },
 
-    }, 'view2')
-    .to(targetLookat, {
-      x: targetLookat2.x ,
-      y: targetLookat2.y,
-      z: targetLookat2.z,
-      duration: 2,
-      ease: "power1.inOut",
-      onUpdate: function () {
-        camera.lookAt(targetLookat)
-      },
-    }, 'view3').to(camera.position, {
-      x:  -100,
-      y: 45,
-      z: 30,
-      duration: 5,
-      ease: "power1.inOut",
-          onStart: function(){
-        setTrue2();
-      },
-      onUpdate: function () {
-        camera.lookAt(targetLookat)
-      },
-      onComplete: function(){
-        setFalse2()
-      }
-    }, 'view3')
-    
-    .to(targetLookat2, {
-      x: initialLookat.x ,
-      y: initialLookat.y,
-      z: initialLookat.z,
-      duration: 2,
-      ease: "power3.inOut",
-      onUpdate: function () {
-        camera.lookAt(targetLookat2)
-      },
-    }, 'endReset').to(camera.position, {
-      x:  0,
-      y: 150,
-      z: 150,
-      duration: 5,
-      ease: "power1.inOut",
-      onUpdate: function () {
-        camera.lookAt(targetLookat2)
-      },
-    }, 'endReset')
-    tl.seek('pos1')
+    },)
+      .to(targetLookat, {
+        x: targetLookat2.x,
+        y: targetLookat2.y,
+        z: targetLookat2.z,
+        duration: 2,
+        ease: "power1.inOut",
+        onUpdate: function () {
+          camera.lookAt(targetLookat)
+        },
+      },).to(camera.position, {
+        x: -100,
+        y: 45,
+        z: 30,
+        duration: 5,
+        ease: "power1.inOut",
+        onStart: function () {
+          setTrue2();
+          props.setLocation(new THREE.Vector3(-100, 40, -15));
+          props.switchLightOn();
+        },
+        onUpdate: function () {
+          camera.lookAt(targetLookat)
+        },
+        onComplete: function () {
+          setFalse2();
+          props.switchLightOff();
+        }
+      },)
+
+      .to(targetLookat2, {
+        x: initialLookat.x,
+        y: initialLookat.y,
+        z: initialLookat.z,
+        duration: 2,
+        ease: "power1.inOut",
+        onUpdate: function () {
+          camera.lookAt(targetLookat2)
+        },
+      }, 'endReset').to(camera.position, {
+        x: 0,
+        y: 150,
+        z: 150,
+        duration: 5,
+        ease: "power1.inOut",
+        onUpdate: function () {
+          camera.lookAt(targetLookat2)
+        },
+      }, 'endReset')
   }, [camera])
   useFrame(() => {
     camera.current.updateMatrixWorld();
@@ -242,7 +250,7 @@ const CameraModule = () => {
   return (
     <>
       {/* <group ref={cameraRef}> */}
-      <PerspectiveCamera far={40000} near={0.1} ref={camera} position={[0, 150, 150]} makeDefault fov={70} setTrue1={()=> setTrue1()} setFalse1 = {()=>setFalse1()}/>
+      <PerspectiveCamera far={40000} near={0.1} ref={camera} position={[0, 150, 150]} makeDefault fov={70} setTrue1={() => setTrue1()} setFalse1={() => setFalse1()} />
       {/* </group> */}
     </>
   )
