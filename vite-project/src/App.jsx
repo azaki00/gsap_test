@@ -14,7 +14,12 @@ import gsap from 'gsap'
 function App() {
   const [location, setLocation] = useState(new THREE.Vector3(0, 0, 0))
   const [lightVis, setLightVis] = useState(false)
-  const [intense, setIntense] = useState()
+  const [ambInt, setambInt] = useState(0.2)
+
+  const setAmbience=(amb)=>{
+    setambInt(amb);
+  }
+
   const switchLightOn = () => {
     setLightVis(true);
   }
@@ -64,7 +69,7 @@ function App() {
     <>
       <Canvas shadows={true} >
         <ambientLight intensity={0.2} />
-        <pointLight position={[5, 50, 5]} intensity={0.2} castShadow />
+        <pointLight position={[5, 50, 5]} intensity={ambInt} castShadow />
         {/* <Targets /> */}
         {/* <OrbitControls /> */}
         {/* <Test /> */}
@@ -72,7 +77,7 @@ function App() {
         <Model2 setLocation={setLocation} switchLightOn={switchLightOn} switchLightOff={switchLightOff} />
         <Model3 setLocation={setLocation} switchLightOn={switchLightOn} switchLightOff={switchLightOff} />
         <Model4 setLocation={setLocation} switchLightOn={switchLightOn} switchLightOff={switchLightOff} />
-        <CameraModule setLocation={setLocation} switchLightOn={switchLightOn} switchLightOff={switchLightOff} />
+        <CameraModule ambInt={ambInt} setAmbience={setAmbience} setLocation={setLocation} switchLightOn={switchLightOn} switchLightOff={switchLightOff} />
         <Spotspot lightVis={lightVis} location={location} />
       </Canvas>
     </>

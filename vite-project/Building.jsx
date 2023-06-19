@@ -9,7 +9,6 @@ Title: Lowpoly Building1
 
 import React, { useRef, useState } from 'react'
 import { useCursor, useGLTF } from '@react-three/drei'
-import styles from './src/Model.module.css'
 import * as THREE from 'three'
 
 

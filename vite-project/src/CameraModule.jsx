@@ -47,7 +47,9 @@ const CameraModule = (props) => {
   const setFalse2 = () => {
     setShowMarkarth(false);
   }
-  var tl = gsap.timeline({ repeat: -1 });
+  var tl = gsap.timeline(
+    // { repeat: -1 }
+    );
 
   useEffect(() => {
     if (showWhiterun) {
@@ -241,7 +243,13 @@ const CameraModule = (props) => {
         onUpdate: function () {
           camera.lookAt(targetLookat2)
         },
-      }, 'endReset')
+      }, 'endReset').to(props.ambRef,{
+        intensity: props.ambInt,
+        ease: "power1.inOut",
+        onStart:function(){
+          props.setAmbience(1);
+        }
+      })
   }, [camera])
   useFrame(() => {
     camera.current.updateMatrixWorld();
